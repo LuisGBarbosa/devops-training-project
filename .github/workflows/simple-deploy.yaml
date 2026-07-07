@@ -54,6 +54,6 @@ jobs: # jobs são as tarefas que o workflow vai executar
 
           npm run build
 
-          npm run start
+          pm2 restart api
 
           EOF
