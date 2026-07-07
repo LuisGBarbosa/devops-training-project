@@ -1,0 +1,59 @@
+name: Deploy to Contabo VPS # nome do workflow
+on:
+  push: 
+    branches: [ main ] # quando fizer um push na branch main
+  
+jobs: # jobs são as tarefas que o workflow vai executar
+  build:
+    runs-on: ubuntu-latest # sistema operacional da máquina virtual
+    steps: # passo do workflow 
+      - name: Checkout code # nome do passo, usa uma action pronta do github que clona o repositório e faz o checkout do código pra branch que será usada
+        uses: actions/checkout@v3
+      
+      # Configuração do Node.js
+      - name: Set up Node.js # nome do passo, usa uma action pronta do github que configura o Node.js
+        uses: actions/setup-node@v3 # action que instala o Node.js
+        with: # forma de passar parâmetros para a action
+          node-version: 22 # versão do Node.js que será usada
+
+      # Instalação das dependências
+      - name: Install dependencies # nome do passo, usa uma action pronta do github que instala as dependências do projeto
+        run: npm install # comando que instala as dependências do projeto
+        working-directory: src # diretório onde o comando será executado
+
+      # Build do projeto
+      - name: Build project
+        run: npm run build
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+
+          chmod 600 ~/.ssh/id_ed25519
+
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      # aqui pode fazer um passo para rodar testes ou outras coisas se necessário
+
+  # criando job para deploy separado por boa prática
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build # needs é para garantir que o job build tenha sido executado com sucesso antes de executar o job deploy
+    steps:
+      - name: Deploy to Contabo VPS
+        run: |
+          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
+
+          cd /home/luisgbarbosa/training/devops-training-project
+
+          git pull origin main
+
+          npm install
+
+          npm run build
+
+          npm run start
+
+          EOF
