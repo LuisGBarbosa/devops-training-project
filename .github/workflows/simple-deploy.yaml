@@ -33,7 +33,7 @@ jobs: # jobs são as tarefas que o workflow vai executar
 
           chmod 600 ~/.ssh/id_ed25519
 
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
       # aqui pode fazer um passo para rodar testes ou outras coisas se necessário
 
