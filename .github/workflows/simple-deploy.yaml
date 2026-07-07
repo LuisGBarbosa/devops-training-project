@@ -35,7 +35,7 @@ jobs: # jobs são as tarefas que o workflow vai executar
 
           ssh-keyscan -p ${{ secrets.VPS_PORT }} -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
-      # aqui pode fazer um passo para rodar testes ou outras coisas se necessário
+      # aqui pode fazer um passo para rodar testes ou outras coisas se necessário 
 
   # criando job para deploy separado por boa prática
   deploy:
