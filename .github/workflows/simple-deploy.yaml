@@ -33,7 +33,7 @@ jobs: # jobs são as tarefas que o workflow vai executar
 
           chmod 600 ~/.ssh/id_ed25519
 
-          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -p ${{ secrets.VPS_PORT }} -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
       # aqui pode fazer um passo para rodar testes ou outras coisas se necessário
 
@@ -44,7 +44,7 @@ jobs: # jobs são as tarefas que o workflow vai executar
     steps:
       - name: Deploy to Contabo VPS
         run: |
-          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
+          ssh -p ${{ secrets.VPS_PORT }} ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
 
           cd /home/luisgbarbosa/training/devops-training-project
 
