@@ -41,7 +41,7 @@ jobs: # jobs são as tarefas que o workflow vai executar
           chmod 600 ~/.ssh/id_ed25519
 
           ssh-keyscan -p ${{ secrets.VPS_PORT }} -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
-          
+
       - name: Deploy to Contabo VPS
         run: |
           ssh -p ${{ secrets.VPS_PORT }} ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
@@ -49,13 +49,10 @@ jobs: # jobs são as tarefas que o workflow vai executar
           cd /home/orbneil/luisgbarbosa/training/devops-training-project
 
           git pull origin main
-
           npm install
-
           npm run build
-
           npm run start
 
           EOF
           
-#mudar o npm run start para pm2 restart api
+#mudar o npm run start para pm2 restart api 
