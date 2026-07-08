@@ -46,11 +46,15 @@ jobs: # jobs são as tarefas que o workflow vai executar
         run: |
           ssh -p ${{ secrets.VPS_PORT }} ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
 
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+          nvm use 24
+
           cd /home/orbneil/luisgbarbosa/training/devops-training-project
 
           git pull origin main
           npm install
-          npm run build
+          npm ci
           pm2 restart devops-trin-project
 
           EOF
