@@ -55,7 +55,7 @@ jobs: # jobs são as tarefas que o workflow vai executar
           git pull origin main
           npm install
           npm ci
-          pm2 restart devops-trin-project
+          pm2 restart devops-train-project
 
           EOF
           
