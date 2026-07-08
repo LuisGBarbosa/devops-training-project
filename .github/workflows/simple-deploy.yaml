@@ -47,7 +47,7 @@ jobs: # jobs são as tarefas que o workflow vai executar
           ssh -p ${{ secrets.VPS_PORT }} ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
 
           cd /home/orbneil/luisgbarbosa/training/devops-training-project
-
+          
           git pull origin main
           npm install 
           npm run build
